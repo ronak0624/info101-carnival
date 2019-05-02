@@ -1,0 +1,22 @@
+{
+  "name": "info101-carnival",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ronak0624/info101-carnival.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ronak0624/info101-carnival/issues"
+  },
+  "homepage": "https://github.com/ronak0624/info101-carnival#readme",
+  "dependencies": {
+    "jquery-slotmachine": "^4.0.1"
+  }
+}
