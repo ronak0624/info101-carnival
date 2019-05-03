@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/slot.css">
+    <link href="https://fonts.googleapis.com/css?family=Gugi|Modak" rel="stylesheet">
 
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/jquery-slotmachine/dist/slotmachine.min.js"></script>
@@ -26,42 +27,69 @@
 </head>
 
 <body>
+    <div class="row">
+        <div class="col">
+            <div class="jumbotron text-center">
+                <h1 class="display-3">RULES</h1>
+                <h3>3 Bobs: Easy Question</h3>
+                <br>
+                <h3>2 Bobs: Medium Question</h3>
+                <br>
+                <h3>1 Bob: Hard Question</h3>
+            </div>
+            <div id ="stats" class="jumbotron text-center">
+                <h1 class="display-3">Stats so far</h1>
+                <h3 id="ez"></h3>
+                <h3 id="med"></h3>
+                <h3 id="hard"></h3>
+            </div>
+            <div class="jumbotron text-center">
+                <h1 class="display-3">Stats so far</h1>
+                <ol>
 
-    <div id="bob" style="padding-top:50px;">
-
-        <div class="content">
-            <h1>Bob-O-Matic</h1>
-            <div>
-                <div id="bob1" class="slotMachine" style="margin-left: -65px;">
-                    <div class="slot slot1"></div>
-                    <div class="slot slot4"></div>
-                    <div class="slot slot6"></div>
-                </div>
-
-                <div id="bob2" class="slotMachine">
-                    <div class="slot slot1"></div>
-                    <div class="slot slot4"></div>
-                    <div class="slot slot6"></div>
-                </div>
-
-                <div id="bob3" class="slotMachine">
-                    <div class="slot slot1"></div>
-                    <div class="slot slot4"></div>
-                    <div class="slot slot6"></div>
-                </div>
-
-                <div class="btn-group btn-group-justified" role="group">
-                    <button id="bobShuffle" type="button" class="btn btn-primary btn-lg">Shuffle!</button>
-                    <button id="bobStop" type="button" class="btn btn-primary btn-lg">Stop!</button>
-                </div>
+                </ol>
             </div>
         </div>
-        <div class="row-fluid my-5">
-            <div class="jumbotron">
-                <h1 class="display-3" id="question"></h1>
+        <div class="col">
+            <div id="bob" style="padding-top:50px;">
+
+                <div class="content">
+                    <h1 class="display-4">Bob-O-Matic</h1>
+                    <div>
+                        <div id="bob1" class="slotMachine" style="margin-left: -65px;">
+                            <div class="slot slot1"></div>
+                            <div class="slot slot4"></div>
+                            <div class="slot slot6"></div>
+                        </div>
+
+                        <div id="bob2" class="slotMachine">
+                            <div class="slot slot1"></div>
+                            <div class="slot slot4"></div>
+                            <div class="slot slot6"></div>
+                        </div>
+
+                        <div id="bob3" class="slotMachine">
+                            <div class="slot slot1"></div>
+                            <div class="slot slot4"></div>
+                            <div class="slot slot6"></div>
+                        </div>
+
+                        <div class="btn-group btn-group-justified" role="group">
+                            <button id="bobShuffle" type="button" class="btn btn-primary btn-lg">Spin</button>
+                            <button id="bobStop" type="button" class="btn btn-primary btn-lg">Stop!</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid my-5">
+                    <div class="jumbotron">
+                        <h1 class="display-3" id="question"></h1>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
@@ -76,6 +104,11 @@
         let s1 = 0;
         let s2 = 0;
         let s3 = 0;
+        var ez = 0;
+        var med = 0;
+        var hard = 0;
+        var totalStat = 0;
+        var difficultyBoolean = "";
         const btnShuffle = document.querySelector('#bobShuffle');
         const btnStop = document.querySelector('#bobStop');
         const bob1 = document.querySelector('#bob1');
@@ -83,7 +116,8 @@
         const bob3 = document.querySelector('#bob3');
         const mbob1 = new SlotMachine(bob1, {
             active: 0,
-            delay: 500
+            delay: 500,
+            direction: 'up'
         });
 
         const mbob2 = new SlotMachine(bob2, {
@@ -94,16 +128,28 @@
             active: 2,
             delay: 500
         });
+        $(document).ready(function(){
+            $("#stats").hide();
+        });
         btnShuffle.addEventListener('click', () => {
             document.getElementById('question').innerHTML = '';
             count = 3;
-            var ez = false;
-            var med = false;
-            var hard = false;
+            mbob3.shuffle(9999);
             mbob1.shuffle(9999);
             mbob2.shuffle(9999);
-            mbob3.shuffle(9999);
+
+
         });
+
+        function slotStats() {
+            totalStat = ez + med + hard;
+            document.getElementById('ez').innerHTML = 'Easy questions given ' + (ez / totalStat * 100).toFixed(2) +
+                '% of the time';
+            document.getElementById('med').innerHTML = 'Medium questions given ' + (med / totalStat * 100).toFixed(2) +
+                '% of the time';
+            document.getElementById('hard').innerHTML = 'Hard questions given ' + (hard / totalStat * 100).toFixed(2) +
+                '% of the time';
+        }
 
         btnStop.addEventListener('click', () => {
             switch (count) {
@@ -124,23 +170,26 @@
             if (count === 0) {
                 if (s1 === s2 && s2 === s3 && s1 === s3) {
                     document.getElementById('question').innerHTML = 'Easy question!';
-                    m1 += 1;
-                    
+                    ez += 1;
+                    difficultyBoolean = "Easy";
+                    slotStats();
                 }
                 if ((s1 === s2 || s2 === s3 || s1 === s3) && !(s1 === s2 && s2 === s3 && s1 === s3)) {
                     document.getElementById('question').innerHTML = 'Medium question!';
-                    m2 += 1;
-                } 
-                if(s1 != s2 && s2 != s3 && s1 != s3){
-                    document.getElementById('question').innerHTML = 'Hard question!';
-                    m3 += 1;
+                    med += 1;
+                    difficultyBoolean = "Medium";
+                    slotStats();
                 }
+                if (s1 != s2 && s2 != s3 && s1 != s3) {
+                    document.getElementById('question').innerHTML = 'Hard question!';
+                    hard += 1;
+                    difficultyBoolean = "Hard";
+                    slotStats();
+                }
+                $("ol").append("<li>" + difficultyBoolean + " Question</li>");
             }
         });
-    
     </script>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 </body>
 
 </html>

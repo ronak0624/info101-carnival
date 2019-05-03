@@ -1,11 +1,6 @@
-@charset "utf-8";
-/* CSS Document */
-
-@import url(https://fonts.googleapis.com/css?family=Roboto);
-/* @import url(http://fonts.googleapis.com/css?family=Pathway+Gothic+One); */
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Modak', cursive;
 }
 
 code {
@@ -33,7 +28,9 @@ h1 {
   text-align: center;
   padding-bottom: 25px;
 }
-
+h3{
+  font-family: sans-serif;
+}
 .container {
   padding-top: 50px;
   padding-bottom: 50px;
@@ -79,13 +76,12 @@ a:hover{
   background-image: url("../img/slot6.png");
 }
 
+.jumbotron{
+  background-color: transparent;
+}
 /*
  * Bob
  */
-#bob {
-  
-}
-
 #bob .content:nth-child(1) {
   text-align: center;
   background: url('../img/machine.png') no-repeat 50% 80px;
@@ -107,22 +103,49 @@ a:hover{
 
 .slotMachine{
   width: 36.333333%;
-  border: 5px solid #CF5178;
+  border: 5px solid #00716a;
   height: 100px;
   display: inline-block;
 }
 
 #bob .btn-group {
-  margin-top: 150px;
-  transform: translateX(-25px);
+  margin-top: 10rem;
+  transform: translateX(-15%);
+  font-family: 'Gugi', cursive;
 }
 
 #bob .btn-group .btn {
   border: none;
-  background-color: rgb(209, 79, 119);
+  border-radius: 50%;
+  background-color: #00716a;
+  padding: 3rem;
+  margin: 0 15px;
 }
 
 #bob .btn-group .btn:hover, .btn-group .btn:focus {
   background-color: rgb(180, 75, 119);
+}
+.jumbotron.text-center:nth-child(3){
+  padding-top: 0;
+}
+
+jumbotron ol {
+  list-style-type: none;
+  margin-left: 0;
+}
+
+jumbotron ol > li {
+  counter-increment: customlistcounter;
+}
+
+jumbotron ol > li:before {
+  content: counter(customlistcounter) " ";
+  font-weight: bold;
+  float: left;
+  width: 3em;
+}
+
+jumbotron ol:first-child {
+  counter-reset: customlistcounter;
 }
 
