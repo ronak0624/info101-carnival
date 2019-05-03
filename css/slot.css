@@ -107,6 +107,15 @@ a:hover{
   height: 100px;
   display: inline-block;
 }
+.btn-primary.btn-lg{
+  font-family: 'Gugi', cursive;
+  background-color: #00716a;
+  border: none;
+}
+.btn-primary.btn-lg:focus, .btn-primary.btn-lg:hover{
+  background-color: rgb(180, 75, 119);
+  
+}
 
 #bob .btn-group {
   margin-top: 10rem;
@@ -129,23 +138,25 @@ a:hover{
   padding-top: 0;
 }
 
-jumbotron ol {
+.jumbotron ol {
   list-style-type: none;
   margin-left: 0;
+  
 }
 
-jumbotron ol > li {
+.jumbotron ol > li {
   counter-increment: customlistcounter;
+  font-family: 'Ubuntu', sans-serif;
 }
 
-jumbotron ol > li:before {
+.jumbotron ol > li:before {
   content: counter(customlistcounter) " ";
   font-weight: bold;
   float: left;
   width: 3em;
 }
 
-jumbotron ol:first-child {
+.jumbotron ol:first-child {
   counter-reset: customlistcounter;
 }
 

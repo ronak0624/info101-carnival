@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/slot.css">
-    <link href="https://fonts.googleapis.com/css?family=Gugi|Modak" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Gugi|Modak|Ubuntu" rel="stylesheet">
 
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/jquery-slotmachine/dist/slotmachine.min.js"></script>
+    <script src="node_modules/jquery-slotmachine/dist/slotmachine.js"></script>
     <script src="node_modules/jquery-slotmachine/dist/jquery.slotmachine.min.js"></script>
     <link rel="stylesheet" href="node_modules/jquery-slotmachine/dist/jquery.slotmachine.css" type="text/css"
         media="screen" />
@@ -36,14 +36,20 @@
                 <h3>2 Bobs: Medium Question</h3>
                 <br>
                 <h3>1 Bob: Hard Question</h3>
+                <button id="newPlayer" type="button" class="btn btn-primary btn-lg mt-5">New Player!</button>
             </div>
+            <div class="jumbotron text-center">
+                    <h1 class="display-3"># Of spins left</h1>
+                    <h1 id="numSpins" class="display-3"></h3>
+                    <h1 class="display-3" id="thanks">Thanks for playing!</h1>
+                </div>
             <div id ="stats" class="jumbotron text-center">
                 <h1 class="display-3">Stats so far</h1>
                 <h3 id="ez"></h3>
                 <h3 id="med"></h3>
                 <h3 id="hard"></h3>
             </div>
-            <div class="jumbotron text-center">
+            <div id="recent" class="jumbotron text-center">
                 <h1 class="display-3">Stats so far</h1>
                 <ol>
 
@@ -77,7 +83,9 @@
                         <div class="btn-group btn-group-justified" role="group">
                             <button id="bobShuffle" type="button" class="btn btn-primary btn-lg">Spin</button>
                             <button id="bobStop" type="button" class="btn btn-primary btn-lg">Stop!</button>
+                            
                         </div>
+                        
                     </div>
                 </div>
                 <div class="row-fluid my-5">
@@ -101,6 +109,7 @@
     </script>
     <script>
         let count = 0;
+        let spins = 0;
         let s1 = 0;
         let s2 = 0;
         let s3 = 0;
@@ -111,6 +120,7 @@
         var difficultyBoolean = "";
         const btnShuffle = document.querySelector('#bobShuffle');
         const btnStop = document.querySelector('#bobStop');
+        const newPlayer = document.querySelector('#newPlayer');
         const bob1 = document.querySelector('#bob1');
         const bob2 = document.querySelector('#bob2');
         const bob3 = document.querySelector('#bob3');
@@ -130,6 +140,7 @@
         });
         $(document).ready(function(){
             $("#stats").hide();
+            $("#recent").hide();
         });
         btnShuffle.addEventListener('click', () => {
             document.getElementById('question').innerHTML = '';
@@ -137,8 +148,10 @@
             mbob3.shuffle(9999);
             mbob1.shuffle(9999);
             mbob2.shuffle(9999);
-
-
+            if(spins <= 0){
+                document.getElementById('numSpins').innerHTML = 'No spins left!';
+                $('#thanks').hide();
+            }
         });
 
         function slotStats() {
@@ -150,6 +163,11 @@
             document.getElementById('hard').innerHTML = 'Hard questions given ' + (hard / totalStat * 100).toFixed(2) +
                 '% of the time';
         }
+        newPlayer.addEventListener('click', () => {
+            spins = 3
+            $('#thanks').hide();
+            document.getElementById('numSpins').innerHTML = spins;
+        });
 
         btnStop.addEventListener('click', () => {
             switch (count) {
@@ -171,22 +189,31 @@
                 if (s1 === s2 && s2 === s3 && s1 === s3) {
                     document.getElementById('question').innerHTML = 'Easy question!';
                     ez += 1;
+                    spins--;
+                    document.getElementById('numSpins').innerHTML = spins;
                     difficultyBoolean = "Easy";
                     slotStats();
                 }
                 if ((s1 === s2 || s2 === s3 || s1 === s3) && !(s1 === s2 && s2 === s3 && s1 === s3)) {
                     document.getElementById('question').innerHTML = 'Medium question!';
                     med += 1;
+                    spins--;
+                    document.getElementById('numSpins').innerHTML = spins;
                     difficultyBoolean = "Medium";
                     slotStats();
                 }
                 if (s1 != s2 && s2 != s3 && s1 != s3) {
                     document.getElementById('question').innerHTML = 'Hard question!';
                     hard += 1;
+                    spins--;
+                    document.getElementById('numSpins').innerHTML = spins;
                     difficultyBoolean = "Hard";
                     slotStats();
                 }
                 $("ol").append("<li>" + difficultyBoolean + " Question</li>");
+            }
+            if(spins === 0){
+                $('#thanks').show()
             }
         });
     </script>
