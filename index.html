@@ -39,11 +39,12 @@
                 <button id="newPlayer" type="button" class="btn btn-primary btn-lg mt-5">New Player!</button>
             </div>
             <div class="jumbotron text-center">
-                    <h1 class="display-3"># Of spins left</h1>
-                    <h1 id="numSpins" class="display-3"></h3>
+                <h1 class="display-3"># Of spins left</h1>
+                <h1 id="numSpins" class="display-3">
+                    </h3>
                     <h1 class="display-3" id="thanks">Thanks for playing!</h1>
-                </div>
-            <div id ="stats" class="jumbotron text-center">
+            </div>
+            <div id="stats" class="jumbotron text-center">
                 <h1 class="display-3">Stats so far</h1>
                 <h3 id="ez"></h3>
                 <h3 id="med"></h3>
@@ -83,9 +84,9 @@
                         <div class="btn-group btn-group-justified" role="group">
                             <button id="bobShuffle" type="button" class="btn btn-primary btn-lg">Spin</button>
                             <button id="bobStop" type="button" class="btn btn-primary btn-lg">Stop!</button>
-                            
+
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="row-fluid my-5">
@@ -138,17 +139,19 @@
             active: 2,
             delay: 500
         });
-        $(document).ready(function(){
+        $(document).ready(function () {
             $("#stats").hide();
             $("#recent").hide();
         });
         btnShuffle.addEventListener('click', () => {
             document.getElementById('question').innerHTML = '';
             count = 3;
-            mbob3.shuffle(9999);
-            mbob1.shuffle(9999);
-            mbob2.shuffle(9999);
-            if(spins <= 0){
+            if (spins > 0) {
+                mbob3.shuffle(9999);
+                mbob1.shuffle(9999);
+                mbob2.shuffle(9999);
+            }
+            if (spins <= 0) {
                 document.getElementById('numSpins').innerHTML = 'No spins left!';
                 $('#thanks').hide();
             }
@@ -170,52 +173,54 @@
         });
 
         btnStop.addEventListener('click', () => {
-            switch (count) {
-                case 3:
-                    mbob1.stop();
-                    s1 = mbob1.active;
-                    break;
-                case 2:
-                    mbob2.stop();
-                    s2 = mbob2.active;
-                    break;
-                case 1:
-                    mbob3.stop();
-                    s3 = mbob3.active;
-                    break;
+            if (spins > 0) {
+                switch (count) {
+                    case 3:
+                        mbob1.stop();
+                        s1 = mbob1.active;
+                        break;
+                    case 2:
+                        mbob2.stop();
+                        s2 = mbob2.active;
+                        break;
+                    case 1:
+                        mbob3.stop();
+                        s3 = mbob3.active;
+                        break;
+                }
+                count--;
+                if (count === 0) {
+                    if (s1 === s2 && s2 === s3 && s1 === s3) {
+                        document.getElementById('question').innerHTML = 'Easy question!';
+                        ez += 1;
+                        spins--;
+                        document.getElementById('numSpins').innerHTML = spins;
+                        difficultyBoolean = "Easy";
+                        slotStats();
+                    }
+                    if ((s1 === s2 || s2 === s3 || s1 === s3) && !(s1 === s2 && s2 === s3 && s1 === s3)) {
+                        document.getElementById('question').innerHTML = 'Medium question!';
+                        med += 1;
+                        spins--;
+                        document.getElementById('numSpins').innerHTML = spins;
+                        difficultyBoolean = "Medium";
+                        slotStats();
+                    }
+                    if (s1 != s2 && s2 != s3 && s1 != s3) {
+                        document.getElementById('question').innerHTML = 'Hard question!';
+                        hard += 1;
+                        spins--;
+                        document.getElementById('numSpins').innerHTML = spins;
+                        difficultyBoolean = "Hard";
+                        slotStats();
+                    }
+                    $("ol").append("<li>" + difficultyBoolean + " Question</li>");
+                }
             }
-            count--;
-            if (count === 0) {
-                if (s1 === s2 && s2 === s3 && s1 === s3) {
-                    document.getElementById('question').innerHTML = 'Easy question!';
-                    ez += 1;
-                    spins--;
-                    document.getElementById('numSpins').innerHTML = spins;
-                    difficultyBoolean = "Easy";
-                    slotStats();
-                }
-                if ((s1 === s2 || s2 === s3 || s1 === s3) && !(s1 === s2 && s2 === s3 && s1 === s3)) {
-                    document.getElementById('question').innerHTML = 'Medium question!';
-                    med += 1;
-                    spins--;
-                    document.getElementById('numSpins').innerHTML = spins;
-                    difficultyBoolean = "Medium";
-                    slotStats();
-                }
-                if (s1 != s2 && s2 != s3 && s1 != s3) {
-                    document.getElementById('question').innerHTML = 'Hard question!';
-                    hard += 1;
-                    spins--;
-                    document.getElementById('numSpins').innerHTML = spins;
-                    difficultyBoolean = "Hard";
-                    slotStats();
-                }
-                $("ol").append("<li>" + difficultyBoolean + " Question</li>");
-            }
-            if(spins === 0){
+            if (spins === 0) {
                 $('#thanks').show()
             }
-        });
+            });
     </script>
 </body>
 
